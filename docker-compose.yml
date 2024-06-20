@@ -4,7 +4,6 @@ x-logging: &logging
     max-file: "1"
   driver: json-file
 
-name: lct-24-19
 services:
 
   reverse-proxy:

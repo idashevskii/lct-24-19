@@ -1,0 +1,17 @@
+export const llmModels = [
+  { name: 'openai_base',    title: 'OpenAI Базовый (GPT-4o, GPT-4o)' },
+  { name: 'openai_complex', title: 'OpenAI Усложненный (GPT-4-turbo, GPT-4o)' },
+  { name: 'openai_lite',    title: 'OpenAI Несложный (GPT-4o, GPT-3.5-turbo)' },
+  { name: 'openai_least',   title: 'OpenAI Простой (GPT-3.5-turbo, GPT-3.5-turbo)' },
+  { name: 'mistral_base',   title: 'Mistral Базовый (Open-Mistral-7b, Open-Mistral-7b)' },
+  { name: 'mistral_complex', title: 'Mistral Усложненный (Open-Mistral-7b, Mistral-large)' },
+  { name: 'mistral_hard',   title: 'Mistral Сложный (Mistral-large, Mistral-large)' },
+  { name: 'mistral_lite',   title: 'Mistral Простой (Mistral-medium, Mistral-medium)' },
+  { name: 'google_base',    title: 'Gemini Базовый (gemini-1.5-flash, gemini-1.5-flash)' },
+  { name: 'google_complex', title: 'Gemini Усложненный (gemini-1.5-flash, gemini-1.5-pro)' },
+  { name: 'google_hard',    title: 'Gemini Сложный (gemini-1.5-pro, gemini-1.5-pro)' },
+  { name: 'google_lite',    title: 'Gemini Простой (gemini-1.0-pro, gemini-1.0-pro)' },
+  { name: 'anthropic_base', title: 'Claude Базовый (claude-3-opus, claude-3-opus)' },
+  { name: 'anthropic_complex', title: 'Claude Усложненный (claude-3-opus, claude-3-sonnet)' },
+  { name: 'anthropic_lite', title: 'Claude Простой (claude-3-haiku, claude-3-haiku)' },
+];
