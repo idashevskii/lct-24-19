@@ -1,0 +1,36 @@
+{
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "name": "Backend in Docker",
+      "restart": true,
+      "address": "0.0.0.0",
+      "remoteRoot": "/app",
+      "localRoot": "${workspaceFolder}/services/backend",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Python: Remote Attach",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/services/researcher",
+          "remoteRoot": "/code"
+        },
+        {
+          "localRoot": "${workspaceFolder}/services/researcher/.venv/lib/python3.12/site-packages",
+          "remoteRoot": "/usr/local/lib/python3.12/site-packages"
+        }
+      ],
+      "justMyCode": true
+    }
+  ]
+}

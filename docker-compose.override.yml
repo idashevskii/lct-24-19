@@ -1,0 +1,42 @@
+services:
+
+  ui:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/ui:/app
+      - dev-ui-cache:/root
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/backend:/app
+      - dev-backend-cache:/root
+    ports:
+      - "9229:9229" # debugger
+
+  researcher:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/researcher/app:/code/app
+    ports:
+      - "8080:80" # direct access
+      - "5678:5678" # debugger
+
+  certbot:
+    restart: "no"
+    entrypoint: ["echo", "Service disabled"]
+    deploy:
+      replicas: 0
+    environment:
+      - CERT_MODE=staging
+
+  postgres:
+    ports:
+      - "5432:5432"
+
+volumes:
+  dev-ui-cache:
+  dev-backend-cache:

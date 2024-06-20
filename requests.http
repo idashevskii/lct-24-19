@@ -1,0 +1,47 @@
+@baseUrl=https://localhost/api/v1
+
+###
+POST {{baseUrl}}/generic/clear
+
+###
+POST {{baseUrl}}/generic/load-samples
+
+###
+GET {{baseUrl}}/app/config
+
+###
+PUT {{baseUrl}}/app/config
+Content-Type: application/json
+
+{"dummyApi": false}
+
+
+
+### Researcher API
+@researcherBaseUrl=http://localhost:8080
+
+###
+GET {{researcherBaseUrl}}/
+
+### Swagger UI
+GET {{researcherBaseUrl}}/docs
+
+### OpenAPI
+GET {{researcherBaseUrl}}/openapi.json
+
+### 
+GET {{researcherBaseUrl}}/research
+
+###
+POST {{researcherBaseUrl}}/research
+Content-Type: application/json
+
+{
+  "dummyApi": true,
+  "llmKey": "mytoken1",
+  "tavilyApiKey": "mytoken2",
+  "promptParams": {
+    "sources": ["src1", "src2"],
+    "key": "value"
+  }
+}

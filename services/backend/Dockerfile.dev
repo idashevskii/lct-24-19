@@ -1,0 +1,6 @@
+FROM node:22.2.0
+WORKDIR /app
+
+ENV NODE_ENV=development
+
+ENTRYPOINT npm install && exec npm run start:debug
