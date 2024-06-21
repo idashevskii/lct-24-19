@@ -1,16 +1,41 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, ViteDevServer } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
 import svgLoader from 'vite-svg-loader'
+
+const baseUrl = process.env.BASE_URI
+
+const envJsPlugin = () => ({
+  name: 'env-js',
+  configureServer(server: ViteDevServer) {
+    server.middlewares.use(process.env.BASE_URI + '/env.js', async (req, res, next) => {
+      // @ts-ignore
+      const config = (await import('./public/env.js')).default
+      const ret: { [k: string]: string | null } = {}
+      for (const k in config) {
+        ret[k] = process.env[config[k].replace(/^\$\{(.*)\}$/, '$1')] || null
+      }
+      res.writeHead(200, { 'Content-Type': 'text/javascript' }).end('export default ' + JSON.stringify(ret) + ';')
+    })
+  },
+})
+
+const restorePrefixedExternalResourcesPlugin = (resources: string[]) => ({
+  name: 'restore-prefixed-external-resources',
+  transformIndexHtml: (html: string) =>
+    resources.reduce((html, resource) => html.replace(baseUrl + resource, resource), html),
+})
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    envJsPlugin(),
+    restorePrefixedExternalResourcesPlugin(['/favicon.svg']),
     vueJsx(),
 
     // Docs: https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin
@@ -50,8 +75,12 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['vuetify'],
-    entries: [
-      './src/**/*.vue',
-    ],
+    entries: ['./src/**/*.vue'],
+  },
+  server: {
+    strictPort: true,
+    host: true,
+    port: 80,
+    hmr: { clientPort: 443 },
   },
 })
