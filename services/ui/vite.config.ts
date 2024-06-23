@@ -27,7 +27,7 @@ const envJsPlugin = () => ({
 const restorePrefixedExternalResourcesPlugin = (resources: string[]) => ({
   name: 'restore-prefixed-external-resources',
   transformIndexHtml: (html: string) =>
-    resources.reduce((html, resource) => html.replace(baseUrl + resource, resource), html),
+    resources.reduce((html, resource) => html.replaceAll(baseUrl + resource, resource), html),
 })
 
 // https://vitejs.dev/config/

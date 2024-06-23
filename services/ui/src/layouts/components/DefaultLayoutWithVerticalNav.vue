@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import NavItems from '@/layouts/components/NavItems.vue'
-import logo from '@images/logo.svg?raw'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 
 // Components
@@ -48,7 +47,7 @@ import { mdiBellOutline, mdiMagnify, mdiMenu, mdiWindowClose } from '@mdi/js'
 
     <template #vertical-nav-header="{ toggleIsOverlayNavActive }">
       <RouterLink to="/" class="app-logo app-title-wrapper">
-        <div class="d-flex" v-html="logo" />
+        <img class="d-flex" :src="'/favicon.svg'" width="48px" />
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
           {{ APP_NAME }}
