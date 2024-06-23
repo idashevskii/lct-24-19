@@ -3,8 +3,8 @@ import type { App } from 'vue'
 import { createVuetify } from 'vuetify'
 import { VBtn } from 'vuetify/components/VBtn'
 import defaults from './defaults'
-import { icons } from './icons'
 import { themes } from './theme'
+import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
 
 // Styles
 
@@ -16,8 +16,8 @@ export default function (app: App) {
     aliases: {
       IconBtn: VBtn,
     },
+    icons: { defaultSet: 'mdi', aliases, sets: { mdi } },
     defaults,
-    icons,
     theme: {
       defaultTheme: 'light',
       themes,

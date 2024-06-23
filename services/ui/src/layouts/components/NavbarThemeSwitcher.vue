@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import type { ThemeSwitcherTheme } from '@layouts/types'
+import { mdiWeatherNight, mdiWeatherSunny, mdiWeatherSunset } from '@mdi/js';
 
 const themes: ThemeSwitcherTheme[] = [
   {
     name: 'light',
-    icon: 'ri-sun-line',
+    icon: mdiWeatherSunny,
   },
   {
     name: 'dark',
-    icon: 'ri-moon-clear-line',
+    icon: mdiWeatherNight,
   },
 ]
 </script>

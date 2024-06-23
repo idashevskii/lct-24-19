@@ -212,4 +212,6 @@ wheel==0.43.0
 wrapt==1.16.0
 yarl==1.9.4
 zopfli==0.2.3
-
+langgraph
+gpt_researcher
+json5

@@ -8,13 +8,17 @@
     "build": "vite build",
     "preview": "vite preview --port 5050",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint . -c .eslintrc.cjs --fix --ext .ts,.js,.cjs,.vue,.tsx,.jsx",
-    "build:icons": "tsx src/plugins/iconify/build-icons.ts",
-    "postinstall": "npm run build:icons"
+    "lint": "eslint . -c .eslintrc.cjs --fix --ext .ts,.js,.cjs,.vue,.tsx,.jsx"
   },
   "dependencies": {
+    "@formkit/themes": "^1.6.5",
+    "@formkit/vue": "^1.6.5",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13",
+    "vue-markdown-render": "^2.2.1",
     "@floating-ui/dom": "1.5.3",
     "@iconify-json/bxl": "^1.1.10",
+    "@mdi/js": "^7.4.47",
     "@vueuse/core": "^10.5.0",
     "@vueuse/math": "^10.5.0",
     "apexcharts": "3.37.0",
@@ -31,6 +35,7 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.1",
     "@antfu/eslint-config-vue": "^0.43.1",
     "@antfu/utils": "^0.7.6",
     "@iconify-json/ri": "^1.1.18",

@@ -7,6 +7,7 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
+import { APP_NAME } from '@/constants'
 
 const form = ref({
   username: '',
@@ -42,13 +43,13 @@ const isPasswordVisible = ref(false)
         </template>
 
         <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
-          Materio
+          {{ APP_NAME }}
         </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
         <h5 class="text-h5 font-weight-semibold mb-1">
-          Adventure starts here 🚀
+          Adventure starts here
         </h5>
         <p class="mb-0">
           Make your app management easy and fun!

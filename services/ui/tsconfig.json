@@ -12,6 +12,8 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@/*": [
         "./src/*"
@@ -43,6 +45,7 @@
     ],
     "skipLibCheck": true,
     "types": [
+      "reflect-metadata",
       "vite/client",
       "vite-plugin-vue-layouts/client"
     ]

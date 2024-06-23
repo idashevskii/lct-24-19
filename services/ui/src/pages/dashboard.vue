@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePageStore } from '@/stores/page'
 import AnalyticsAward from '@/views/dashboard/AnalyticsAward.vue'
 import AnalyticsBarCharts from '@/views/dashboard/AnalyticsBarCharts.vue'
 import AnalyticsDepositWithdraw from '@/views/dashboard/AnalyticsDepositWithdraw.vue'
@@ -27,6 +28,13 @@ const newProject = {
   change: -18,
   subtitle: 'Yearly Project',
 }
+
+const pageStore = usePageStore();
+
+onBeforeMount(async () => {
+  pageStore.setTitle('Дашборд');
+});
+
 </script>
 
 <template>

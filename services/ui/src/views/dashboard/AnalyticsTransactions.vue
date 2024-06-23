@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { mdiDotsVertical } from '@mdi/js';
+
 const statistics = [
   {
     title: 'Sales',
@@ -39,7 +41,7 @@ const statistics = [
       <IconBtn class="mt-n5">
         <VIcon
           color="high-emphasis"
-          icon="ri-more-2-line"
+          :icon="mdiDotsVertical"
         />
       </IconBtn>
     </template>

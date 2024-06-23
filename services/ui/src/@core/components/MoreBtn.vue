@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { mdiDotsVertical } from '@mdi/js';
+
 const props = defineProps<{
   menuList?: unknown[]
   itemProps?: boolean
@@ -7,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <IconBtn>
-    <VIcon icon="ri-more-2-line" />
+    <VIcon :icon="mdiDotsVertical" />
 
     <VMenu
       v-if="props.menuList"

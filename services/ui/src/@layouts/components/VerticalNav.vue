@@ -3,6 +3,7 @@ import type { Component } from 'vue'
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
 import { useDisplay } from 'vuetify'
 import logo from '@images/logo.svg?raw'
+import { APP_NAME } from '@/constants';
 
 interface Props {
   tag?: string | Component
@@ -65,7 +66,7 @@ const handleNavScroll = (evt: Event) => {
           />
 
           <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-            Materio
+            {{ APP_NAME }}
           </h1>
         </RouterLink>
       </slot>

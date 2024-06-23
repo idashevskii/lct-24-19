@@ -3,16 +3,26 @@ import { useRoute } from 'vue-router'
 import AccountSettingsAccount from '@/views/pages/account-settings/AccountSettingsAccount.vue'
 import AccountSettingsNotification from '@/views/pages/account-settings/AccountSettingsNotification.vue'
 import AccountSettingsSecurity from '@/views/pages/account-settings/AccountSettingsSecurity.vue'
+import { mdiAccountEdit, mdiBellCog, mdiShieldAccount } from '@mdi/js';
+import { usePageStore } from '@/stores/page';
 
 const route = useRoute()
 
 const activeTab = ref(route.params.tab)
 
+
+const pageStore = usePageStore();
+
+onBeforeMount(async () => {
+  pageStore.setTitle('Настройки аккаунта');
+});
+
+
 // tabs
 const tabs = [
-  { title: 'Account', icon: 'ri-group-line', tab: 'account' },
-  { title: 'Security', icon: 'ri-lock-line', tab: 'security' },
-  { title: 'Notifications', icon: 'ri-notification-3-line', tab: 'notification' },
+  { title: 'Профиль', icon: mdiAccountEdit, tab: 'account' },
+  { title: 'Безопасность', icon: mdiShieldAccount, tab: 'security' },
+  { title: 'Уведомления', icon: mdiBellCog, tab: 'notification' },
 ]
 </script>
 

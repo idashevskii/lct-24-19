@@ -7,6 +7,8 @@ import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
+import { APP_NAME } from '@/constants'
+import { mdiBellOutline, mdiMagnify, mdiMenu, mdiWindowClose } from '@mdi/js'
 </script>
 
 <template>
@@ -15,42 +17,27 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <IconBtn
-          class="ms-n3 d-lg-none"
-          @click="toggleVerticalOverlayNavActive(true)"
-        >
-          <VIcon icon="ri-menu-line" />
+        <IconBtn class="ms-n3 d-lg-none" @click="toggleVerticalOverlayNavActive(true)">
+          <VIcon :icon="mdiMenu" />
         </IconBtn>
 
         <!-- 👉 Search -->
-        <div
-          class="d-flex align-center cursor-pointer"
-          style="user-select: none;"
-        >
+        <div class="d-flex align-center cursor-pointer" style="user-select: none;">
           <!-- 👉 Search Trigger button -->
           <IconBtn>
-            <VIcon icon="ri-search-line" />
+            <VIcon :icon="mdiMagnify" />
           </IconBtn>
 
           <span class="d-none d-md-flex align-center text-disabled">
-            <span class="me-3">Search</span>
-            <span class="meta-key">&#8984;K</span>
+            <span class="me-3">Поиск по базе знаний</span>
+            <span class="meta-key">Ctrl+F1</span>
           </span>
         </div>
 
         <VSpacer />
 
-        <IconBtn
-          class="me-2"
-          href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <VIcon icon="ri-github-fill" />
-        </IconBtn>
-
         <IconBtn class="me-2">
-          <VIcon icon="ri-notification-line" />
+          <VIcon :icon="mdiBellOutline" />
         </IconBtn>
 
         <NavbarThemeSwitcher class="me-2" />
@@ -60,25 +47,16 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
     </template>
 
     <template #vertical-nav-header="{ toggleIsOverlayNavActive }">
-      <RouterLink
-        to="/"
-        class="app-logo app-title-wrapper"
-      >
-        <div
-          class="d-flex"
-          v-html="logo"
-        />
+      <RouterLink to="/" class="app-logo app-title-wrapper">
+        <div class="d-flex" v-html="logo" />
 
         <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-          Materio
+          {{ APP_NAME }}
         </h1>
       </RouterLink>
 
-      <IconBtn
-        class="d-block d-lg-none"
-        @click="toggleIsOverlayNavActive(false)"
-      >
-        <VIcon icon="ri-close-line" />
+      <IconBtn class="d-block d-lg-none" @click="toggleIsOverlayNavActive(false)">
+        <VIcon :icon="mdiWindowClose" />
       </IconBtn>
     </template>
 

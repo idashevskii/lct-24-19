@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { NavGroup } from '@layouts/types'
+import { mdiMenuRight } from '@mdi/js';
 
 defineProps<{
   item: Omit<NavGroup, 'children'>
@@ -18,7 +19,7 @@ const isOpen = ref(false)
       @click="isOpen = !isOpen"
     >
       <VIcon
-        :icon="item.icon || 'ri-checkbox-blank-circle-line'"
+        :icon="item.icon"
         class="nav-item-icon"
       />
       <span class="nav-item-title">{{ item.title }}</span>
@@ -29,7 +30,7 @@ const isOpen = ref(false)
         {{ item.badgeContent }}
       </span>
       <VIcon
-        icon="ri-arrow-right-s-line"
+        :icon="mdiMenuRight"
         class="nav-group-arrow"
       />
     </div>
