@@ -16,6 +16,12 @@
         "interpolation": "{{prompt}}: {{sources}}"
       }
     },
+    "title": "Тут название отчёта",
+    "sections": [
+      "Развание раздела 1",
+      "Развание раздела 2",
+      "Развание раздела 3"
+    ],
     "verbose": true
   },
   "INNOVATION_NEWS": {},
