@@ -1,3 +1,9 @@
+export interface Settings {
+  id: number;
+  key: string;
+  value: string;
+}
+
 export interface ReportSource {
   id: number;
   title: string;

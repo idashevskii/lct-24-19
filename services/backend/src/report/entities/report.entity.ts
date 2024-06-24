@@ -8,6 +8,18 @@ import {
 } from 'typeorm';
 
 @Entity()
+export class UserSettings {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  key: string;
+
+  @Column()
+  value: string;
+}
+
+@Entity()
 export class ReportSourceDocument {
   @PrimaryGeneratedColumn()
   id: number;
@@ -149,7 +161,7 @@ export class ReportDocument {
   @Column()
   content: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   metadata?: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -167,4 +179,5 @@ export const entities = [
   ReportSourceDocument,
   ReportTopic,
   ReportDocument,
+  UserSettings,
 ];

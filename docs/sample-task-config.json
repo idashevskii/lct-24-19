@@ -1,0 +1,27 @@
+{
+  "CUSTOM": {
+    "query": "{{prompt}} | {{prompt}} | {{prompt}}",
+    "max_sections": 3,
+    "follow_guidelines": true,
+    "model": "gpt-4o",
+    "sources": "{{sources}}",
+    "guidelines": [
+      "{{sources}}",
+      "Каждый подраздел ДОЛЖЕН включать поддерживающие источники с использованием гиперссылок. Если таковых не существует, удалите подраздел или перепишите его, чтобы он стал частью предыдущего раздела.",
+      "Отчет ДОЛЖЕН быть написан на русском языке.",
+      "{{sources}}"
+    ],
+    "very":{
+      "deep":{
+        "interpolation": "{{prompt}}: {{sources}}"
+      }
+    },
+    "verbose": true
+  },
+  "INNOVATION_NEWS": {},
+  "COMPETITOR_REVIEW": {},
+  "COMPETITORS_REVIEW": {},
+  "PRODUCT_COMPARISON": {},
+  "MARKET_ANALYSIS": {},
+  "DEFAULT": {}
+}

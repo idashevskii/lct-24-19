@@ -14,6 +14,7 @@ class ResearchRequest(BaseModel):
     config: GeneratorConfig
     reportTopic: str
     promptParams: PromptParams
+    task: Any
 
 class ResearchResultMetadataRequest(BaseModel):
     source_urls: List[str]

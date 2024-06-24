@@ -2,8 +2,6 @@ import { Body, Controller, Get, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AppConfig, AppConfigService } from './app-config/app-config.service';
 
-
-
 @Controller('/v1/app')
 export class AppController {
   constructor(
@@ -20,10 +18,10 @@ export class AppController {
   getConfig() {
     return this.appConfigService.getConfig();
   }
-  
+
   @Put('/config')
-  setConfig(@Body() data: AppConfig){
+  setConfig(@Body() data: AppConfig) {
     this.appConfigService.setConfig(data);
-    return {}
+    return {};
   }
 }

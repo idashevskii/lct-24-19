@@ -16,6 +16,19 @@ Content-Type: application/json
 {"dummyApi": false}
 
 
+### Settings
+GET {{baseUrl}}/user/1/settings
+
+### Settings
+PUT {{baseUrl}}/user/1/settings
+Content-Type: application/json
+
+[
+  {"key": "k1", "value": "v1"},
+  {"key": "k2", "value": "v2"}
+]
+
+
 
 ### Researcher API
 @researcherBaseUrl=http://localhost:8080
@@ -36,12 +49,4 @@ GET {{researcherBaseUrl}}/research
 POST {{researcherBaseUrl}}/research
 Content-Type: application/json
 
-{
-  "dummyApi": true,
-  "llmKey": "mytoken1",
-  "tavilyApiKey": "mytoken2",
-  "promptParams": {
-    "sources": ["src1", "src2"],
-    "key": "value"
-  }
-}
+{}

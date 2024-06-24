@@ -12,7 +12,7 @@ export interface ApiConfig {
   dummyApi: boolean;
   llmKey: string;
   tavilyApiKey: string;
-  llmPreset: string,
+  llmPreset: string;
 }
 
 export interface CrudLoadOpts {
@@ -45,11 +45,7 @@ const parameterSerde = {
 export class ApiService {
   public constructor(@inject(AppConfig) private appConfig: AppConfig) {}
 
-  private async fetch<T, R>(
-    method: string,
-    endpoint: string,
-    { data, query, fetchTotal }: FetchOpts<R> = {},
-  ) {
+  private async fetch<R>(method: string, endpoint: string, { data, query, fetchTotal }: FetchOpts<R> = {}) {
     if (query) {
       endpoint += '?' + new URLSearchParams(query).toString();
     }
@@ -89,6 +85,23 @@ export class ApiService {
     return this.fetch('PUT', 'v1/app/config', { data: config });
   }
 
+  public async getUserSettings(): Promise<Map<string, string>> {
+    const res = await this.fetch<{ key: string; value: string }[]>('GET', 'v1/user/1/settings');
+    const ret: Map<string, string> = new Map();
+    for (const { key, value } of res) {
+      ret.set(key, value);
+    }
+    return ret;
+  }
+
+  public async setUserSettings(config: Map<string, string>) {
+    const data: { key: string; value: string }[] = [];
+    for (const [key, value] of config.entries()) {
+      data.push({ key, value })
+    }
+    return this.fetch('PUT', 'v1/user/1/settings', { data });
+  }
+
   private makeCrudApiProvider<T extends { id: number }>({
     endpoint,
     parser,
@@ -101,8 +114,7 @@ export class ApiService {
     fields?: string[];
   }): CrudApiProvider<T> {
     const keyProp = 'id';
-    const fetch = <R>(method: string, ep: string, opts: FetchOpts<R> = {}) =>
-      this.fetch(method, ep, opts);
+    const fetch = <R>(method: string, ep: string, opts: FetchOpts<R> = {}) => this.fetch(method, ep, opts);
     return {
       keyProp,
       async read({ page, perPage, sorting, searchQuery }: CrudLoadOpts) {
@@ -115,9 +127,7 @@ export class ApiService {
           query['perPage'] = String(perPage);
         }
         if (sorting) {
-          query['sorting'] = sorting
-            .map(({ key, reverse }) => `${key}:${reverse ? 'desc' : 'asc'}`)
-            .join(';');
+          query['sorting'] = sorting.map(({ key, reverse }) => `${key}:${reverse ? 'desc' : 'asc'}`).join(';');
         }
         if (fields) {
           query['fields'] = fields.join(',');
@@ -126,7 +136,7 @@ export class ApiService {
           query['search'] = String(searchQuery);
         }
         const items = await fetch('GET', endpoint, {
-          fetchTotal: (_total) => (total = _total),
+          fetchTotal: _total => (total = _total),
           query,
         });
         return { items: parser ? parser(items) : items, total };
@@ -185,14 +195,14 @@ export class ApiService {
 
   public getReportsCrud() {
     return this.makeCrudApiProvider<Report>({
-      parser: (items) => {
-        return items.map((item) => ({
+      parser: items => {
+        return items.map(item => ({
           ...item,
           createdAt: new Date(item.createdAt),
           parameters: parameterSerde.deser(item.parameters),
         }));
       },
-      serializer: (item) => ({ ...item, parameters: parameterSerde.ser(item.parameters) }),
+      serializer: item => ({ ...item, parameters: parameterSerde.ser(item.parameters) }),
       endpoint: 'v1/generic/report',
     });
   }
@@ -205,14 +215,14 @@ export class ApiService {
 
   public getReportTemplatesCrud() {
     return this.makeCrudApiProvider<ReportTemplate>({
-      parser: (items) => {
-        return items.map((item) => ({
+      parser: items => {
+        return items.map(item => ({
           ...item,
           createdAt: new Date(item.createdAt),
           parameters: parameterSerde.deser(item.parameters),
         }));
       },
-      serializer: (item) => ({ ...item, parameters: parameterSerde.ser(item.parameters) }),
+      serializer: item => ({ ...item, parameters: parameterSerde.ser(item.parameters) }),
       endpoint: 'v1/generic/report-template',
     });
   }
@@ -231,8 +241,8 @@ export class ApiService {
 
   public getSourceDocsCrud() {
     return this.makeCrudApiProvider<ReportSourceDocument>({
-      parser: (items) => {
-        return items.map((item) => ({
+      parser: items => {
+        return items.map(item => ({
           ...item,
           createdAt: new Date(item.createdAt),
         }));

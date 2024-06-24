@@ -19,4 +19,12 @@ export class AppConfig {
     return this.config.apiBaseUrl;
   }
 
+  isDevMode(): boolean {
+    return window.localStorage.getItem('DEV_MODE') === '1';
+  }
+
+  toggleDevMode() {
+    window.localStorage.setItem('DEV_MODE', this.isDevMode() ? '0' : '1');
+    window.location.reload()
+  }
 }

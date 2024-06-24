@@ -7,6 +7,8 @@ import {
   Query,
   Logger,
   Res,
+  Put,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -17,6 +19,7 @@ import {
   ReportDocument,
   ReportSourceDocument,
   ReportTemplate,
+  UserSettings,
 } from './entities/report.entity';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import { HttpService } from '@nestjs/axios';
@@ -44,10 +47,11 @@ interface GeneratorConfig {
   llmPreset: string;
 }
 
-interface ReportGenerateRequest {
+interface ResearchRequest {
   config: GeneratorConfig;
   reportTopic: string;
   promptParams: PromptParams;
+  task: any;
 }
 
 interface ReportRegeneratePayload {
@@ -111,6 +115,35 @@ export class ReportController {
     });
   }
 
+  @Get('user/:id/settings')
+  async getUserSettings(@Param('id') id: string) {
+    return this.entityManager.find(UserSettings);
+  }
+
+  @Put('user/:id/settings')
+  async setUserSettings(
+    @Param('id') id: string,
+    @Body() input: UserSettings[],
+  ) {
+    const existsingSettings = await this.entityManager.find(UserSettings);
+    const map: Map<string, UserSettings> = new Map();
+    for (const existing of existsingSettings) {
+      map.set(existing.key, existing);
+    }
+    for (const s of input) {
+      if (!map.has(s.key)) {
+        this.entityManager.insert(UserSettings, s);
+      } else {
+        const existing = map.get(s.key);
+        if (existing.value !== s.value) {
+          existing.value = s.value;
+          this.entityManager.save(existing);
+        }
+      }
+    }
+    return {};
+  }
+
   private async fetchSourceDocs(ids: number[]) {
     const docs = await this.entityManager.find(ReportSourceDocument, {
       where: { id: In(ids) },
@@ -126,6 +159,26 @@ export class ReportController {
       where: { id: report.templateId },
       relations: ['topic'],
     });
+    const reportTopic = template?.topic.code;
+    if (!reportTopic) {
+      throw new InternalServerErrorException('Report topic not specified');
+    }
+
+    const taskConfig = await this.entityManager.findOne(UserSettings, {
+      where: { key: 'TASK_CONFIG' },
+    });
+
+    if (!taskConfig) {
+      throw new InternalServerErrorException('Tasks not cofigured');
+    }
+
+    const taskJson = JSON.parse(taskConfig.value);
+
+    if (!taskJson[reportTopic]) {
+      throw new InternalServerErrorException(
+        `Task for topic ${reportTopic} not configued`,
+      );
+    }
 
     const promptParams = this.makeReportPromptParamsRequest(report);
     if (promptParams[SOURCE_DOCS_ELEMENT]) {
@@ -137,10 +190,11 @@ export class ReportController {
       }
     }
 
-    const request: ReportGenerateRequest = {
+    const request: ResearchRequest = {
       config: this.makeGenerateConfigRequest(),
-      reportTopic: template?.topic.code,
+      reportTopic,
       promptParams,
+      task: taskJson[reportTopic],
     };
 
     const data = await this.fetch('research', request);

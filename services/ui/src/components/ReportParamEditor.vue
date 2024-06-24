@@ -3,10 +3,11 @@ import { VSheet } from 'vuetify/components'
 import { FormKitSchema, FormKit } from '@formkit/vue'
 import { type FormKitGroupValue } from '@formkit/core'
 import { ref, computed, type Ref, onMounted } from 'vue';
-import { DEFAULT_SCHEMA, SOURCES_ELEMENT, SOURCE_DOCS_ELEMENT, templateSchemas } from '@/models/template-schemas';
+import { SOURCES_ELEMENT, SOURCE_DOCS_ELEMENT, defaultSchema } from '@/models/template-schemas';
 import { useService } from '@/utils/di';
 import { ApiService } from '@/services/ApiService';
 import type { ReportSource, ReportSourceDocument } from '@/models/entities';
+import { type FormKitSchemaNode } from '@formkit/core';
 
 const apiService = useService(ApiService);
 
@@ -19,8 +20,16 @@ const props = defineProps<{
   schemaName?: string,
 }>();
 
+// const json:any={}
+// for(const [k, v] of Object.entries(templateSchemas)){
+//   json[k]=v;
+// }
+// console.log(JSON.stringify(json))
+
+const templateSchemas = ref<Record<string, FormKitSchemaNode[]>>()
+
 const schema = computed(() => {
-  const ret = templateSchemas[String(props.schemaName)] || templateSchemas[DEFAULT_SCHEMA];
+  const ret = (templateSchemas.value && templateSchemas.value[String(props.schemaName)]) || defaultSchema;
   const sourcesOptions = sources.value.map(({ url, title }) => ({ value: url, label: `${url} - ${title}` }));
   const sourceDocsOptions = sourceDocs.value.map(({ id, name, title }) => ({ value: id, label: `${name} - ${title}` }));
 
@@ -38,6 +47,8 @@ const schema = computed(() => {
 onMounted(async () => {
   sources.value = (await apiService.getSourcesCrud().read({})).items;
   sourceDocs.value = (await apiService.getSourceDocsCrud().read({})).items;
+
+  templateSchemas.value = JSON.parse((await apiService.getUserSettings()).get('TOPICS_CONFIG') || '{}');
 });
 
 </script>

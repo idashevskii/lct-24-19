@@ -1,6 +1,9 @@
+import pprint
 from dto import PromptGenerator, ResearchRequest, ResearchResult, ResearchResultMetadata
 import os
 from configurators import configure_rgpt
+from prompt_executors.gptr import create_task
+
 
 async def execute_prompt(
     prompt_generator: PromptGenerator, request: ResearchRequest
@@ -16,13 +19,27 @@ async def execute_prompt(
 
     source_docs = request.promptParams.get("source_docs", [])
 
+    task = create_task(request)
+
     markdown = f"""
 # Эмуляция исследования
 
-## Промпт
+## Параметры
 
 ```
-{prompt_result.prompt}
+{pprint.pformat(request.promptParams, indent=4)}
+```
+
+## Шаблон задачи
+
+```
+{pprint.pformat(request.task, indent=4)}
+```
+
+## Задача
+
+```
+{pprint.pformat(task, indent=4)}
 ```
 
 ## Выбранные модели:
@@ -46,10 +63,11 @@ async def execute_prompt(
 
     ret = ResearchResult()
     ret.markdown = markdown
-    ret.metadata=ResearchResultMetadata()
+    ret.metadata = ResearchResultMetadata()
     ret.metadata.source_urls = source_urls
 
     return ret
+
 
 def md_list(l: list) -> str:
     return "- " + "\n - ".join(l) + "\n"

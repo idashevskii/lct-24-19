@@ -65,7 +65,7 @@ export class GenericController {
 
   @Post('clear')
   async clearData() {
-    if (true || process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
       await this.dataSource.dropDatabase();
       await this.dataSource.synchronize();
       return 'OK';

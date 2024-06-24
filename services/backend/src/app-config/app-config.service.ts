@@ -9,7 +9,7 @@ export class AppConfig {
   static default() {
     const ret = new AppConfig();
     ret.dummyApi = true;
-    ret.llmPreset = 'openai_base'
+    ret.llmPreset = 'openai_lite'
     return ret;
   }
 }
