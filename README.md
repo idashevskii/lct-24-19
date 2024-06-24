@@ -21,5 +21,5 @@ npx nest
 ## Установка тестовых данных
 
 ```bash
-curl --request POST --url https://localhost/api/v1/generic/load-samples
+curl --request POST --url https://localhost/api/v1/generic/load-samples --insecure
 ```
