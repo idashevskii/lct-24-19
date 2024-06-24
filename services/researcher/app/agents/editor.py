@@ -25,36 +25,44 @@ class EditorAgent:
         :return:
         """
 
-        initial_research = research_state.get("initial_research")
         task = research_state.get("task")
-        max_sections = task.get("max_sections")
-        prompt = [{
-            "role": "system",
-            "content": "You are a research director. Your goal is to oversee the research project"
-                       " from inception to completion.\n "
-        }, {
-            "role": "user",
-            "content": f"Today's date is {datetime.now().strftime('%d/%m/%Y')}\n."
-                       f"Research summary report: '{initial_research}'\n\n"
-                       f"Your task is to generate an outline of sections headers for the research project"
-                       f" based on the research summary report above.\n"
-                       f"You must generate a maximum of {max_sections} section headers.\n"
-                       f"You must focus ONLY on related research topics for subheaders and do NOT include introduction, conclusion and references.\n"
-                       f"You must return nothing but a JSON with the fields 'title' (str) and "
-                       f"'sections' (maximum {max_sections} section headers) with the following structure: "
-                       f"'{{title: string research title, date: today's date, "
-                       f"sections: ['section header 1', 'section header 2', 'section header 3' ...]}}.\n "
-        }]
 
-        print_agent_output(f"Planning an outline layout based on initial research...", agent="EDITOR")
-        response = call_model(prompt=prompt, model=task.get("model"), response_format="json")
-        plan = json.loads(response)
+        if task.get("strict_mode"):
+            return {
+                "title": task.get("title"),
+                "date": datetime.now().strftime('%d/%m/%Y'),
+                "sections": task.get("sections")
+            }
+        else:
+            initial_research = research_state.get("initial_research")
+            max_sections = task.get("max_sections")
+            prompt = [{
+                "role": "system",
+                "content": "You are a research director. Your goal is to oversee the research project"
+                        " from inception to completion.\n "
+            }, {
+                "role": "user",
+                "content": f"Today's date is {datetime.now().strftime('%d/%m/%Y')}\n."
+                        f"Research summary report: '{initial_research}'\n\n"
+                        f"Your task is to generate an outline of sections headers for the research project"
+                        f" based on the research summary report above.\n"
+                        f"You must generate a maximum of {max_sections} section headers.\n"
+                        f"You must focus ONLY on related research topics for subheaders and do NOT include introduction, conclusion and references.\n"
+                        f"You must return nothing but a JSON with the fields 'title' (str) and "
+                        f"'sections' (maximum {max_sections} section headers) with the following structure: "
+                        f"'{{title: string research title, date: today's date, "
+                        f"sections: ['section header 1', 'section header 2', 'section header 3' ...]}}.\n "
+            }]
 
-        return {
-            "title": plan.get("title"),
-            "date": plan.get("date"),
-            "sections": plan.get("sections")
-        }
+            print_agent_output(f"Planning an outline layout based on initial research...", agent="EDITOR")
+            response = call_model(prompt=prompt, model=task.get("model"), response_format="json")
+            plan = json.loads(response)
+
+            return {
+                "title": plan.get("title"),
+                "date": plan.get("date"),
+                "sections": plan.get("sections")
+            }
 
     async def run_parallel_research(self, research_state: dict):
         research_agent = ResearchAgent()
