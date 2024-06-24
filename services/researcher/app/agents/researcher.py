@@ -40,6 +40,19 @@ class ResearchAgent:
         task = draft_state.get("task")
         topic = draft_state.get("topic")
         parent_query = task.get("query")
+        
+        try:
+            section_index=task.get("sections", []).index(topic)
+            subsections=task.get("subsections", [])[section_index]
+            if len(subsections)>0:
+                parent_query=f"""
+Top level query: {parent_query}'.
+You MUST follow structure:
+- {"\n- ".join(subsections)}
+"""
+        except:
+            pass
+
         source = task.get("source", "web")
         verbose = task.get("verbose")
         print_agent_output(f"Running in depth research on the following report topic: {topic}", agent="RESEARCHER")

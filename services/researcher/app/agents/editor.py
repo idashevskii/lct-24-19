@@ -27,7 +27,7 @@ class EditorAgent:
 
         task = research_state.get("task")
 
-        if task.get("strict_mode"):
+        if task.get("strict_mode", False):
             return {
                 "title": task.get("title"),
                 "date": datetime.now().strftime('%d/%m/%Y'),
